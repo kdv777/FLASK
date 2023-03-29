@@ -34,6 +34,6 @@ def get_article(pk: int):
     except KeyError:
         raise NotFound(f'Article id {pk} not found')
     return render_template(
-        'articles/details.html',
+        'articles/profile.html',
         article_name=article_name,
     )
