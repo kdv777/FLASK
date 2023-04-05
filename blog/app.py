@@ -1,6 +1,7 @@
-from flask import Flask, redirect, url_for, app
+from flask import Flask, redirect, url_for
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 from blog.article.views import article
 from blog.auth.views import auth
@@ -8,13 +9,21 @@ from blog.user.views import user
 
 import os
 
+
 db = SQLAlchemy()
 login_manager = LoginManager()
+"""
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///blog.db"
 
+
+
+"""
 """
 cfg_name = os.environ.get("CONFIG_NAME") or "ProductionConfig"
 app.config.from_object(f"blog.configs.{cfg_name}")
 """
+
 
 def create_app() -> Flask:
     app = Flask(__name__)
@@ -23,6 +32,7 @@ def create_app() -> Flask:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///blog.db"
 
     db.init_app(app)
+    Migrate(app, db)
 
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
@@ -45,6 +55,9 @@ def register_blueprints(app: Flask):
     app.register_blueprint(user)
     app.register_blueprint(article)
     app.register_blueprint(auth)
+
+
+
 
 
 __all__ = [
