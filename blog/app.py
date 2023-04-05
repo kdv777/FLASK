@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, app
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
@@ -6,9 +6,15 @@ from blog.article.views import article
 from blog.auth.views import auth
 from blog.user.views import user
 
+import os
+
 db = SQLAlchemy()
 login_manager = LoginManager()
 
+"""
+cfg_name = os.environ.get("CONFIG_NAME") or "ProductionConfig"
+app.config.from_object(f"blog.configs.{cfg_name}")
+"""
 
 def create_app() -> Flask:
     app = Flask(__name__)
