@@ -11,7 +11,7 @@
             {% for key, value in articles.items() %}
         <ul>
             <li><a href="{{ url_for('article.get_article', pk=key) }}">{{ value['title'] }}</a>
-                <a href="{{ url_for('user.get_user', pk=value['author']) }}">Author</a>
+                <a href="{{ url_for('user.profile', pk=value['author']) }}">Author</a>
             </li>
         </ul>
         {% endfor %}
