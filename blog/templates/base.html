@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}My app{% endblock %}</title>
+    {% block css %}
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"
+    {% endblock %}
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container">
+    {% block body %}{% endblock %}
+    {% for (endpoint, label) in [('auth_app.login', 'Login'), ('auth_app.register',
+'Register')] %}
+    <a href="{{ url_for(endpoint) }}"
+        class="nav-link {% if request.endpoint == endpoint -%}active{%- endif %}">
+      {{ label }}
+    </a>
+    {% endfor %}
+</div>
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"
+</script>
+{% endblock %}
+</body>
+</html>
