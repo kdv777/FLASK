@@ -4,25 +4,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 from blog.article.views import article
-from blog.auth.views import auth
+from blog.auth.views import auth_app
 from blog.user.views import user
+from blog.security import flask_bcrypt
 
 import os
 
-
 db = SQLAlchemy()
 login_manager = LoginManager()
-"""
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///blog.db"
-
-
-
-"""
-"""
-cfg_name = os.environ.get("CONFIG_NAME") or "ProductionConfig"
-app.config.from_object(f"blog.configs.{cfg_name}")
-"""
 
 
 def create_app() -> Flask:
@@ -36,6 +25,7 @@ def create_app() -> Flask:
 
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
+    flask_bcrypt.init_app(app)
 
     from blog.models import User
 
@@ -54,10 +44,7 @@ def create_app() -> Flask:
 def register_blueprints(app: Flask):
     app.register_blueprint(user)
     app.register_blueprint(article)
-    app.register_blueprint(auth)
-
-
-
+    app.register_blueprint(auth_app)
 
 
 __all__ = [
