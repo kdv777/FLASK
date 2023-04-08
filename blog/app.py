@@ -6,23 +6,11 @@ from flask_migrate import Migrate
 from blog.article.views import article
 from blog.auth.views import auth
 from blog.user.views import user
-
-import os
+from blog.views.authors import authors_app
 
 
 db = SQLAlchemy()
 login_manager = LoginManager()
-"""
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///blog.db"
-
-
-
-"""
-"""
-cfg_name = os.environ.get("CONFIG_NAME") or "ProductionConfig"
-app.config.from_object(f"blog.configs.{cfg_name}")
-"""
 
 
 def create_app() -> Flask:
@@ -55,6 +43,7 @@ def register_blueprints(app: Flask):
     app.register_blueprint(user)
     app.register_blueprint(article)
     app.register_blueprint(auth)
+    app.register_blueprint(authors_app, url_prefix="/authors")
 
 
 

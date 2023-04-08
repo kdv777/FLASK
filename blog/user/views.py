@@ -23,3 +23,4 @@ def profile(pk: int):
         'users/profile.html',
         user=_user,
     )
+
