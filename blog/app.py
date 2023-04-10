@@ -1,15 +1,14 @@
 from flask import Flask, redirect, url_for
 from flask_login import LoginManager
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 from blog.article.views import article
 from blog.auth.views import auth
+from blog.database import db
 from blog.user.views import user
 from blog.views.authors import authors_app
 
 
-db = SQLAlchemy()
 login_manager = LoginManager()
 
 
@@ -25,7 +24,7 @@ def create_app() -> Flask:
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-    from blog.models import User
+    from blog.mymodels import User
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -45,11 +44,3 @@ def register_blueprints(app: Flask):
     app.register_blueprint(auth)
     app.register_blueprint(authors_app, url_prefix="/authors")
 
-
-
-
-
-__all__ = [
-    "create_app",
-    "db",
-]

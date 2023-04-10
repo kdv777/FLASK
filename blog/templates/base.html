@@ -1,27 +1,24 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}My app{% endblock %}</title>
+
     {% block css %}
+        <!-- Bootstrap CSS -->
         <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     {% endblock %}
+    <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
 {% include 'navbar.html' %}
 <div class="container">
-    {% for (endpoint, label) in [
-    ('users_app.list', 'Users'),
-    ('articles_app.list', 'Articles'),
-    ('authors_app.list', 'Authors'),
-    ] %}
     {% block body %}{% endblock %}
 </div>
 
 {% block js %}
-<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"
-</script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
 {% endblock %}
 </body>
 </html>

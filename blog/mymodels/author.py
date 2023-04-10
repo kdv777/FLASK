@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 
-from blog.app import db
+from blog.database import db
 
 
 class Author(db.Model):

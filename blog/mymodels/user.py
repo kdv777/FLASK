@@ -1,7 +1,7 @@
 from flask_login import UserMixin
 from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.orm import relationship
-from blog.app import db
+from blog.database import db
 
 
 class User(db.Model, UserMixin):

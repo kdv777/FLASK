@@ -15,7 +15,7 @@ def login():
     email = request.form.get('email')
     password = request.form.get('password')
 
-    from blog.models import User
+    from blog.mymodels import User
 
     user = User.query.filter_by(email=email).first()
 
