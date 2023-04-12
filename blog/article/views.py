@@ -1,10 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
+from sqlalchemy.orm import joinedload
 from werkzeug.exceptions import NotFound
 
 from blog.database import db
 from blog.forms.article import CreateArticleForm
-from blog.mymodels import Article, Author
+from blog.mymodels import Article, Author, Tag
+from blog.views.articles import articles_app
 
 article = Blueprint('article', __name__, url_prefix='/articles', static_folder='../static')
 
@@ -51,10 +53,25 @@ def create_article_form():
     return render_template('articles/create.html', form=form)
 
 
-@article.route('/', methods=['POST'])
+@articles_app.route("/<int:article_id>/", endpoint="details")
+def article_detals(article_id):
+    article = Article.query.filter_by(id=article_id).options(
+        joinedload(Article.tags)  # подгружаем связанные теги!
+    ).one_or_none()
+    if article is None:
+        raise NotFound
+    return render_template("articles/details.html", article=article)
+
+
+@articles_app.route("/create/", methods=["GET", "POST"], endpoint="create")
 def create_article():
     form = CreateArticleForm(request.form)
+    form.tags.choices = [(tag.id, tag.name) for tag in Tag.query.order_by("name")]
     if form.validate_on_submit():
+        if form.tags.data:  # если в форму были переданы теги (были выбраны)
+            selected_tags = Tag.query.filter(Tag.id.in_(form.tags.data))
+            for tag in selected_tags:
+                article.tags.append(tag)  # добавляем выбранные теги к статье
         _article = Article(title=form.title.data.strip(), text=form.text.data)
         if current_user.author:
             _article.author_id = current_user.author.id

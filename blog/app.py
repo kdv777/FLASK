@@ -10,6 +10,7 @@ from blog.views.authors import authors_app
 
 
 login_manager = LoginManager()
+app = Flask(__name__)
 
 
 def create_app() -> Flask:
@@ -44,3 +45,23 @@ def register_blueprints(app: Flask):
     app.register_blueprint(auth)
     app.register_blueprint(authors_app, url_prefix="/authors")
 
+
+@app.cli.command("create-tags")
+def create_tags():
+    """
+    Run in your terminal:
+    ➜ flask create-tags
+    """
+    from blog.mymodels import Tag
+
+    for name in [
+        "flask",
+        "django",
+        "python",
+        "sqlalchemy",
+        "news",
+    ]:
+        tag = Tag(name=name)
+    db.session.add(tag)
+    db.session.commit()
+    print("created tags")

@@ -25,7 +25,6 @@ def get_article(pk: int):
 
 
 @articles_app.route("/create/", methods=["GET", "POST"], endpoint="create")
-@login_required
 def create_article():
     error = None
     form = CreateArticleForm(request.form)
