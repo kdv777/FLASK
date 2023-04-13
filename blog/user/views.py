@@ -34,6 +34,8 @@ def register():
 
         login_user(_user)
 
+        return redirect(url_for('user.profile', pk=_user.id))
+
     return render_template(
         'users/register.html',
         form=form,

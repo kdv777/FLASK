@@ -23,17 +23,15 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(255))
     last_name = db.Column(db.String(255))
     password = db.Column(db.String(255))
+    is_staff = db.Column(db.Boolean, default=False)
 
     author = relationship('Author', uselist=False, back_populates='user')
 
-    def __init__(self, email, first_name, last_name, password):
-        self.email = email
-        self.password = password
-        self.first_name = first_name
-        self.last_name = last_name
-
     def check_password(self, password: str) -> bool:
         return check_password_hash(self.password, password)
+
+    def __str__(self):
+        return f'{self.user.email} ({self.user.id})'
 
 
 class Author(db.Model):
@@ -44,6 +42,9 @@ class Author(db.Model):
 
     user = relationship('User', back_populates='author')
     articles = relationship('Article', back_populates='author')
+
+    def __str__(self):
+        return self.user.email
 
 
 class Article(db.Model):
@@ -59,6 +60,9 @@ class Article(db.Model):
     author = relationship('Author', back_populates='articles')
     tags = relationship('Tag', secondary=article_tag_associations_table, back_populates='articles')
 
+    def __str__(self):
+        return self.title
+
 
 class Tag(db.Model):
     __tablename__ = 'tags'
@@ -67,3 +71,6 @@ class Tag(db.Model):
     name = db.Column(db.String(255), nullable=False)
 
     articles = relationship('Article', secondary=article_tag_associations_table, back_populates='tags')
+
+    def __str__(self):
+        return self.name
