@@ -12,4 +12,3 @@ class UserRegisterForm(FlaskForm):
     ])
     confirm_password = PasswordField('Confirm Password', [validators.DataRequired()])
     submit = SubmitField('Register')
-    

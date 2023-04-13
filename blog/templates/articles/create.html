@@ -9,11 +9,12 @@
     <div class="row">
         <h1>Create article:</h1>
     </div>
-    <form method="POST" action="{{ url_for('article.create_article_form') }}">
+    <form method="POST" action="{{ url_for('article.create_article') }}">
         {{ form.csrf_token }}
-        {% for field_name in ['title', 'body', 'tags'] %}
+        {% for field in ['title', 'text', 'tags'] %}
             {{ render_field(form[field]) }}
         {% endfor %}
+
         {{ form.submit(class="btn btn-primary mb-3") }}
     </form>
 {% endblock %}
