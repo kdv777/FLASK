@@ -1,0 +1,29 @@
+{
+	"folders": {},
+	"connections": {
+		"sqlite_jdbc-1877c06313f-43e407d6cae4fdd3": {
+			"provider": "sqlite",
+			"driver": "sqlite_jdbc",
+			"name": "blog.db",
+			"save-password": true,
+			"configuration": {
+				"database": "/home/user1/Рабочий стол/FLASK/blog/blog.db",
+				"url": "jdbc:sqlite:/home/user1/Рабочий стол/FLASK/blog/blog.db",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"auth-model": "native"
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Разработка",
+			"color": "255,255,255",
+			"description": "База данных для разработки",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"auto-close-transactions": false
+		}
+	}
+}
